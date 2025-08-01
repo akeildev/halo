@@ -39,6 +39,15 @@ const PROVIDERS = {
           { id: 'gpt-4o-mini-transcribe-glass', name: 'GPT-4o Mini Transcribe (glass)' }
       ],
   },
+
+  'mastra': {
+      name: 'Teaching Assistant (Mastra)',
+      handler: () => require("./providers/mastra"),
+      llmModels: [
+          { id: 'teaching-assistant', name: 'Teaching Assistant with MCP Courses' },
+      ],
+      sttModels: [],
+  },
   'gemini': {
       name: 'Gemini',
       handler: () => require("./providers/gemini"),
@@ -129,6 +138,23 @@ function createStreamingLLM(provider, opts) {
   if (provider === 'openai-glass') provider = 'openai';
   
   const handler = PROVIDERS[provider]?.handler();
+  
+  // Handle Mastra provider specially
+  if (provider === 'mastra') {
+    if (!handler?.createMastraStream) {
+      throw new Error(`Mastra streaming not supported for provider: ${provider}`);
+    }
+    return {
+      streamChat: async (messages) => {
+        // Initialize the agent if not already done
+        if (handler.initializeTeachingAssistant) {
+          await handler.initializeTeachingAssistant(opts.apiKey);
+        }
+        return handler.createMastraStream(messages, opts);
+      }
+    };
+  }
+  
   if (!handler?.createStreamingLLM) {
       throw new Error(`Streaming LLM not supported for provider: ${provider}`);
   }
@@ -158,7 +184,8 @@ function getProviderClass(providerId) {
         'gemini': 'GeminiProvider',
         'deepgram': 'DeepgramProvider',
         'ollama': 'OllamaProvider',
-        'whisper': 'WhisperProvider'
+        'whisper': 'WhisperProvider',
+        'mastra': 'MastraProvider'
     };
     
     const className = classNameMap[actualProviderId];

@@ -1189,8 +1189,6 @@ export class SettingsView extends LitElement {
             `;
         }
 
-        const loggedIn = !!this.firebaseUser;
-
         const apiKeyManagementHTML = html`
             <div class="api-key-section">
                 ${Object.entries(this.providerConfig)
@@ -1253,7 +1251,7 @@ export class SettingsView extends LitElement {
                         <div class="provider-key-group">
                             <label for="key-input-${id}">${config.name} API Key</label>
                             <input type="password" id="key-input-${id}"
-                                placeholder=${loggedIn ? "Using Pickle's Key" : `Enter ${config.name} API Key`} 
+                                placeholder=${`Enter ${config.name} API Key`} 
                                 .value=${this.apiKeys[id] || ''}
                             >
                             <div class="key-buttons">
@@ -1276,7 +1274,7 @@ export class SettingsView extends LitElement {
             <div class="model-selection-section">
                 <div class="model-select-group">
                     <label>LLM Model: <strong>${getModelName('llm', this.selectedLlm) || 'Not Set'}</strong></label>
-                    <button class="settings-button full-width" @click=${() => this.toggleModelList('llm')} ?disabled=${this.saving || this.availableLlmModels.length === 0}>
+                    <button class="settings-button full-width" @click=${() => this.toggleModelList('llm')} ?disabled=${this.saving}>
                         Change LLM Model
                     </button>
                     ${this.isLlmListVisible ? html`
@@ -1352,12 +1350,6 @@ export class SettingsView extends LitElement {
                 <div class="header-section">
                     <div>
                         <h1 class="app-title">Pickle Glass</h1>
-                        <div class="account-info">
-                            ${this.firebaseUser
-                                ? html`Account: ${this.firebaseUser.email || 'Logged In'}`
-                                : `Account: Not Logged In`
-                            }
-                        </div>
                     </div>
                     <div class="invisibility-icon ${this.isContentProtectionOn ? 'visible' : ''}" title="Invisibility is On">
                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1438,19 +1430,7 @@ export class SettingsView extends LitElement {
                     </button>
                     
                     <div class="bottom-buttons">
-                        ${this.firebaseUser
-                            ? html`
-                                <button class="settings-button half-width danger" @click=${this.handleFirebaseLogout}>
-                                    <span>Logout</span>
-                                </button>
-                                `
-                            : html`
-                                <button class="settings-button half-width" @click=${this.handleUsePicklesKey}>
-                                    <span>Login</span>
-                                </button>
-                                `
-                        }
-                        <button class="settings-button half-width danger" @click=${this.handleQuit}>
+                        <button class="settings-button full-width danger" @click=${this.handleQuit}>
                             <span>Quit</span>
                         </button>
                     </div>

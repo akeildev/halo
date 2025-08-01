@@ -254,20 +254,36 @@ class AskService {
 
             const conversationHistory = this._formatConversationForPrompt(conversationHistoryRaw);
 
-            const systemPrompt = getSystemPrompt('pickle_glass_analysis', conversationHistory, false);
-
-            const messages = [
-                { role: 'system', content: systemPrompt },
-                {
-                    role: 'user',
-                    content: [
-                        { type: 'text', text: `User Request: ${userPrompt.trim()}` },
-                    ],
-                },
-            ];
+            // For Mastra Teaching Assistant, use a different approach
+            let messages;
+            if (modelInfo.provider === 'mastra') {
+                // Mastra agent handles its own system instructions, just send user content
+                messages = [
+                    {
+                        role: 'user',
+                        content: [
+                            { type: 'text', text: userPrompt.trim() },
+                        ],
+                    },
+                ];
+            } else {
+                // Standard approach for other providers
+                const systemPrompt = getSystemPrompt('pickle_glass_analysis', conversationHistory, false);
+                messages = [
+                    { role: 'system', content: systemPrompt },
+                    {
+                        role: 'user',
+                        content: [
+                            { type: 'text', text: `User Request: ${userPrompt.trim()}` },
+                        ],
+                    },
+                ];
+            }
 
             if (screenshotBase64) {
-                messages[1].content.push({
+                // For Mastra, add to the user message (index 0), for others add to user message (index 1)
+                const userMessageIndex = modelInfo.provider === 'mastra' ? 0 : 1;
+                messages[userMessageIndex].content.push({
                     type: 'image_url',
                     image_url: { url: `data:image/jpeg;base64,${screenshotBase64}` },
                 });
@@ -280,6 +296,10 @@ class AskService {
                 maxTokens: 2048,
                 usePortkey: modelInfo.provider === 'openai-glass',
                 portkeyVirtualKey: modelInfo.provider === 'openai-glass' ? modelInfo.apiKey : undefined,
+                // Additional options for Mastra agent
+                resourceId: modelInfo.provider === 'mastra' ? `halo_user_${sessionId}` : undefined,
+                threadId: modelInfo.provider === 'mastra' ? `session_${sessionId}` : undefined,
+                maxSteps: modelInfo.provider === 'mastra' ? 10 : undefined,
             });
 
             try {
