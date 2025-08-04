@@ -283,10 +283,20 @@ class AskService {
             if (screenshotBase64) {
                 // For Mastra, add to the user message (index 0), for others add to user message (index 1)
                 const userMessageIndex = modelInfo.provider === 'mastra' ? 0 : 1;
-                messages[userMessageIndex].content.push({
-                    type: 'image_url',
-                    image_url: { url: `data:image/jpeg;base64,${screenshotBase64}` },
-                });
+                
+                if (modelInfo.provider === 'mastra') {
+                    // Try adding content type for Mastra
+                    messages[userMessageIndex].content.push({
+                        type: 'image',
+                        image: `data:image/jpeg;base64,${screenshotBase64}`,
+                        mimeType: 'image/jpeg'
+                    });
+                } else {
+                    messages[userMessageIndex].content.push({
+                        type: 'image_url',
+                        image_url: { url: `data:image/jpeg;base64,${screenshotBase64}` },
+                    });
+                }
             }
             
             const streamingLLM = createStreamingLLM(modelInfo.provider, {
