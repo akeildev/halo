@@ -1,134 +1,60 @@
-<p align="center">
-  <a href="https://pickle.com/glass">
-   <img src="./public/assets/banner.gif" alt="Logo">
-  </a>
+# Halo
 
-  <h1 align="center">Glass by Pickle: Digital Mind Extension 🧠</h1>
+A free, privacy-focused AI assistant desktop application with real-time audio capture and contextual AI capabilities.
 
-</p>
+## What is Halo?
 
+Halo is a desktop AI assistant that listens, understands, and helps. It captures audio from your system or microphone, transcribes conversations in real-time, and provides intelligent summaries and responses. Whether you're in a meeting, watching a lecture, or having a conversation, Halo can transcribe the audio, summarize key points, and answer questions about what was said.
 
-<p align="center">
-  <a href="https://discord.gg/UCZH5B5Hpd"><img src="./public/assets/button_dc.png" width="80" alt="Pickle Discord"></a>&ensp;<a href="https://pickle.com"><img src="./public/assets/button_we.png" width="105" alt="Pickle Website"></a>&ensp;<a href="https://x.com/intent/user?screen_name=leinadpark"><img src="./public/assets/button_xe.png" width="109" alt="Follow Daniel"></a>
-</p>
+The application works entirely on your device with optional cloud sync. You can use commercial AI providers like OpenAI and Anthropic, or run everything locally with Ollama for complete privacy. All conversation history and transcripts are stored locally in SQLite, giving you full control over your data.
 
-> This project is a fork of [CheatingDaddy](https://github.com/sohzm/cheating-daddy) with modifications and enhancements. Thanks to [Soham](https://x.com/soham_btw) and all the open-source contributors who made this possible!
+## Features
 
-🤖 **Fast, light & open-source**—Glass lives on your desktop, sees what you see, listens in real time, understands your context, and turns every moment into structured knowledge.
+- Real-time audio transcription and summarization
+- Multi-provider AI support (OpenAI, Anthropic, Google, Deepgram)
+- Local AI model support via Ollama
+- Session-based conversation management
+- Custom presets and personalization
+- Cross-platform support (macOS, Windows, Linux)
 
-💬 **Proactive in meetings**—it surfaces action items, summaries, and answers the instant you need them.
+## Tech Stack
 
-🫥️ **Truly invisible**—never shows up in screen recordings, screenshots, or your dock; no always-on capture or hidden sharing.
+- Electron for desktop application framework
+- Next.js for web interface
+- SQLite for local data storage
+- Firebase for optional cloud sync and authentication
+- Express for internal API routing
 
-To have fun building with us, join our [Discord](https://discord.gg/UCZH5B5Hpd)!
-
-## Instant Launch
-
-⚡️  Skip the setup—launch instantly with our ready-to-run macOS app.  [[Download Here]](https://www.dropbox.com/scl/fi/znid09apxiwtwvxer6oc9/Glass_latest.dmg?rlkey=gwvvyb3bizkl25frhs4k1zwds&st=37q31b4w&dl=1)
-
-## Quick Start (Local Build)
-
-### Prerequisites
-
-First download & install [Python](https://www.python.org/downloads/) and [Node](https://nodejs.org/en/download).
-If you are using Windows, you need to also install [Build Tools for Visual Studio](https://visualstudio.microsoft.com/downloads/)
-
-Ensure you're using Node.js version 20.x.x to avoid build errors with native dependencies.
-
-```bash
-# Check your Node.js version
-node --version
-
-# If you need to install Node.js 20.x.x, we recommend using nvm:
-# curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
-# nvm install 20
-# nvm use 20
-```
-
-### Installation
+## Installation
 
 ```bash
 npm run setup
 ```
 
-## Highlights
+This will install dependencies, build the web frontend, and start the application.
 
+## Development
 
-### Ask: get answers based on all your previous screen actions & audio
+```bash
+npm start          # Start the application
+npm run build      # Build for production
+npm run build:win  # Build for Windows
+```
 
-<img width="100%" alt="booking-screen" src="./public/assets/00.gif">
+## Requirements
 
-### Meetings: real-time meeting notes, live summaries, session records
+- Node.js 16 or higher
+- npm or equivalent package manager
 
-<img width="100%" alt="booking-screen" src="./public/assets/01.gif">
+## Configuration
 
-### Use your own API key, or sign up to use ours (free)
+API keys for AI providers can be configured through the settings interface. Local models via Ollama require Ollama to be installed separately.
 
-<img width="100%" alt="booking-screen" src="./public/assets/02.gif">
+## License
 
-**Currently Supporting:**
-- OpenAI API: Get OpenAI API Key [here](https://platform.openai.com/api-keys)
-- Gemini API: Get Gemini API Key [here](https://aistudio.google.com/apikey)
-- Local LLM Ollama & Whisper
+GPL-3.0
 
-### Liquid Glass Design (coming soon)
+## Privacy
 
-<img width="100%" alt="booking-screen" src="./public/assets/03.gif">
+Halo prioritizes user privacy with local-first data storage. Cloud features are optional and require explicit authentication.
 
-<p>
-  for a more detailed guide, please refer to this <a href="https://www.youtube.com/watch?v=qHg3_4bU1Dw">video.</a>
-  <i style="color:gray; font-weight:300;">
-    we don't waste money on fancy vids; we just code.
-  </i>
-</p>
-
-
-## Keyboard Shortcuts
-
-`Ctrl/Cmd + \` : show and hide main window
-
-`Ctrl/Cmd + Enter` : ask AI using all your previous screen and audio
-
-`Ctrl/Cmd + Arrows` : move main window position
-
-## Repo Activity
-
-![Alt](https://repobeats.axiom.co/api/embed/a23e342faafa84fa8797fa57762885d82fac1180.svg "Repobeats analytics image")
-
-## Contributing
-
-We love contributions! Feel free to open issues for bugs or feature requests. For detailed guide, please see our [contributing guide](/CONTRIBUTING.md).
-> Currently, we're working on a full code refactor and modularization. Once that's completed, we'll jump into addressing the major issues.
-
-### Contributors
-
-<a href="https://github.com/pickle-com/glass/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=pickle-com/glass" />
-</a>
-
-### Help Wanted Issues
-
-We have a list of [help wanted](https://github.com/pickle-com/glass/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22%F0%9F%99%8B%E2%80%8D%E2%99%82%EF%B8%8Fhelp%20wanted%22) that contain small features and bugs which have a relatively limited scope. This is a great place to get started, gain experience, and get familiar with our contribution process.
-
-
-### 🛠 Current Issues & Improvements
-
-| Status | Issue                          | Description                                       |
-|--------|--------------------------------|---------------------------------------------------|
-| 🚧 WIP      | Liquid Glass                    | Liquid Glass UI for MacOS 26 |
-
-### Changelog
-
-- Jul 5: Now support Gemini, Intel Mac supported
-- Jul 6: Full code refactoring has done.
-- Jul 7: Now support Claude, LLM/STT model selection
-- Jul 8: Now support Windows(beta), Improved AEC by Rust(to seperate mic/system audio), shortcut editing(beta)
-- Jul 8: Now support Local LLM & STT, Firebase Data Storage 
-
-
-## About Pickle
-
-**Our mission is to build a living digital clone for everyone.** Glass is part of Step 1—a trusted pipeline that transforms your daily data into a scalable clone. Visit [pickle.com](https://pickle.com) to learn more.
-
-## Star History
-[![Star History Chart](https://api.star-history.com/svg?repos=pickle-com/glass&type=Date)](https://www.star-history.com/#pickle-com/glass&Date)
